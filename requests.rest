@@ -1,5 +1,5 @@
-@postId = 6738b233a9d73391d53f432c
-@commentId = 6738afdd61bcee80ab03b2c8
+@postId = 6738b6d647545097428cbbe9
+@commentId = 6738b9c30e8d99f8abfb5db3
 @sender = user123
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
@@ -11,7 +11,7 @@ POST http://localhost:3001/post
 Content-Type: application/json
 
 {
-  "title": "My Comments Post",
+  "title": "My new comment Post",
   "content": "This is the content of my first post!",
   "sender": "{{sender}}"
 }
@@ -38,7 +38,7 @@ PUT http://localhost:3001/post/{{postId}}
 Content-Type: application/json
 
 {
-  "title": "My Second Post - Updated",
+  "title": "My new comment Post - Updated",
   "content": "Updated content of my post!"
 }
 
@@ -54,30 +54,30 @@ DELETE http://localhost:3001/post/{{postId}}
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
 # Get all comments for a post
-GET http://localhost:3001/post/{{postId}}/comments
+GET http://localhost:3001/post/{{postId}}/comment
 Content-Type: application/json
 
 ###
 
 # Get a specific comment by ID
-GET http://localhost:3001/post/{{postId}}/comments/{{commentId}}
+GET http://localhost:3001/post/{{postId}}/comment/{{commentId}}
 Content-Type: application/json
 
 ###
 
 # Create a new comment for a post
-POST http://localhost:3001/post/{{postId}}/comments
+POST http://localhost:3001/post/{{postId}}/comment
 Content-Type: application/json
 
 {
-  "content": "This is another comment2",
+  "content": "This is another comment3",
   "author": "{{sender}}"
 }
 
 ###
 
 # Update an existing comment
-PUT http://localhost:3001/post/{{postId}}/comments/{{commentId}}
+PUT http://localhost:3001/post/{{postId}}/comment/{{commentId}}
 Content-Type: application/json
 
 {
@@ -87,5 +87,5 @@ Content-Type: application/json
 ###
 
 # Delete a comment
-DELETE http://localhost:3001/post/{{postId}}/comments/{{commentId}}
+DELETE http://localhost:3001/post/{{postId}}/comment/{{commentId}}
 Content-Type: application/json
