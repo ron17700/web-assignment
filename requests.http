@@ -1,0 +1,30 @@
+### Add a new post
+POST http://localhost:3001/post
+Content-Type: application/json
+
+{
+  "title": "My First Post",
+  "content": "This is the content of my first post!",
+  "sender": "user123"
+}
+
+### Get all posts
+GET http://localhost:3001/post
+
+### Get a post by ID
+GET http://localhost:3001/post/{{post_id}}
+
+### Get posts by sender
+GET http://localhost:3001/post?sender=user123
+
+### Update a post
+PUT http://localhost:3001/post/{{post_id}}
+Content-Type: application/json
+
+{
+  "title": "Updated Title",
+  "content": "Updated content of my post!"
+}
+
+### Delete a post
+DELETE http://localhost:3001/post/{{post_id}}
