@@ -1,6 +1,4 @@
 const Post = require('../models/post.model');
-const CommentController = require('./comment.controller');
-
 const postController = {
   async getAllPosts(req, res) {
     try {
