@@ -1,4 +1,5 @@
 const Post = require('../models/post.model');
+
 const postController = {
   async getAllPosts(req, res) {
     try {
