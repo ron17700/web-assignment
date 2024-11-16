@@ -1,0 +1,15 @@
+{
+  "name": "web-assignment-1",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./index.js"
+  },
+  "dependencies": {
+    "nodemon": "^2.0.20",
+    "express": "~4.16.1",
+    "debug": "~2.6.9",
+    "dotenv": "^16.0.3",
+    "mongoose": "^8.5.0"
+  }
+}
