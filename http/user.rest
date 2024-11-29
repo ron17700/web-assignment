@@ -1,6 +1,6 @@
+@accessToken = <YOUR_ACCESS_TOKEN>
+@refreshToken = <YOUR_REFRESH_TOKEN>
 @userId = 674a20c5ddaadf7320f6827d
-@jwtToken = <YOUR_JWT_TOKEN>
-@refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzRhMjBjNWRkYWFkZjczMjBmNjgyN2QiLCJpYXQiOjE3MzI5MTEzNTIsImV4cCI6MTczMzUxNjE1Mn0.agiE9HXiNHP_3XFhC01GW7R-r3WtLh-AhUE7RWkAjvw
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~ Users ~~~~~~~~~~~~#
@@ -34,7 +34,7 @@ Content-Type: application/json
 
 # User logout
 POST http://localhost:3001/auth/logout
-Authorization: Bearer {{jwtToken}}
+Authorization: Bearer {{accessToken}}
 Content-Type: application/json
 
 {
@@ -42,21 +42,32 @@ Content-Type: application/json
 }
 ###
 
+# Request a new Access Token using the Refresh Token
+POST http://localhost:3001//auth/refresh-token
+Content-Type: application/json
+
+{
+  "refreshToken": "{{refreshToken}}"
+}
+
+###
+
+
 # Get a specific user by ID
 GET http://localhost:3001/user/{{userId}}
-Authorization: Bearer {{jwtToken}}
+Authorization: Bearer {{accessToken}}
 
 ###
 
 # Get all users
 GET http://localhost:3001/user
-Authorization: Bearer {{jwtToken}}
+Authorization: Bearer {{accessToken}}
 
 ###
 
 # Update a user (allowed fields: firstName, lastName, age)
 PUT http://localhost:3001/user/{{userId}}
-Authorization: Bearer {{jwtToken}}
+Authorization: Bearer {{accessToken}}
 Content-Type: application/json
 
 {
@@ -69,6 +80,6 @@ Content-Type: application/json
 
 # Delete a user by ID
 DELETE http://localhost:3001/user/{{userId}}
-Authorization: Bearer {{jwtToken}}
+Authorization: Bearer {{accessToken}}
 
 ###

@@ -3,8 +3,10 @@ const postRoutes = require('./post.routes');
 const userRoutes = require('./user.routes');
 const authRoutes = require('./auth.routes');
 
-router.use('/post', postRoutes);
-router.use('/user', userRoutes);
+const isAuthorized = require('../middlewares/authorization');
+
+router.use('/post', isAuthorized, postRoutes);
+router.use('/user', isAuthorized, userRoutes);
 router.use('/auth', authRoutes);
 
 module.exports = router;

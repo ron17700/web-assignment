@@ -1,3 +1,4 @@
+@accessToken = <YOUR_ACCESS_TOKEN>
 @postId = 674a216bddaadf7320f6828c
 @senderId = 674a20c5ddaadf7320f6827d
 
@@ -7,6 +8,7 @@
 
 # Add a new post
 POST http://localhost:3001/post
+Authorization: Bearer {{accessToken}}
 Content-Type: application/json
 
 {
@@ -19,21 +21,25 @@ Content-Type: application/json
 
 # Get all posts
 GET http://localhost:3001/post
+Authorization: Bearer {{accessToken}}
 
 ###
 
 # Get a post by ID
 GET http://localhost:3001/post/{{postId}}
+Authorization: Bearer {{accessToken}}
 
 ###
 
 # Get posts by sender
 GET http://localhost:3001/post?sender={{senderId}}
+Authorization: Bearer {{accessToken}}
 
 ###
 
 # Update a post
 PUT http://localhost:3001/post/{{postId}}
+Authorization: Bearer {{accessToken}}
 Content-Type: application/json
 
 {
@@ -45,5 +51,6 @@ Content-Type: application/json
 
 # Delete a post
 DELETE http://localhost:3001/post/{{postId}}
+Authorization: Bearer {{accessToken}}
 
 ###
