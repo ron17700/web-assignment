@@ -24,7 +24,7 @@ const authController = {
         const { email, password } = req.body;
 
         try {
-            const user = await User.findOne({ email }).select('+password +refreshToken');
+            const user = await User.findOne({ email }).select('+password');
             if (!user) return res.status(400).json({ error: 'Invalid credentials' });
 
             const isMatch = await bcrypt.compare(password, user.password);
@@ -49,8 +49,8 @@ const authController = {
         }
 
         try {
-            const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
-            const user = await User.findById(decoded.userId).select('+refreshToken');
+            const decodedToken = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
+            const user = await User.findById(decodedToken.userId).select('+refreshToken');
 
             if (!user || user.refreshToken !== refreshToken) {
                 return res.status(400).json({ error: 'Invalid refresh token' });
@@ -73,8 +73,8 @@ const authController = {
         }
 
         try {
-            const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
-            const user = await User.findById(decoded.userId).select('+refreshToken');
+            const decodedToken = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
+            const user = await User.findById(decodedToken.userId).select('+refreshToken');
 
             if (!user || user.refreshToken !== refreshToken) {
                 return res.status(403).json({ error: 'Invalid refresh token' });
