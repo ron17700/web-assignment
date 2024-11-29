@@ -1,0 +1,49 @@
+@postId = 674a216bddaadf7320f6828c
+@senderId = 674a20c5ddaadf7320f6827d
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+#~~~~~~~~~~~ Posts ~~~~~~~~~~~~#
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+
+# Add a new post
+POST http://localhost:3001/post
+Content-Type: application/json
+
+{
+  "title": "My new comment Post",
+  "content": "This is the content of my first post!",
+  "sender": "{{senderId}}"
+}
+
+###
+
+# Get all posts
+GET http://localhost:3001/post
+
+###
+
+# Get a post by ID
+GET http://localhost:3001/post/{{postId}}
+
+###
+
+# Get posts by sender
+GET http://localhost:3001/post?sender={{senderId}}
+
+###
+
+# Update a post
+PUT http://localhost:3001/post/{{postId}}
+Content-Type: application/json
+
+{
+  "title": "My new comment Post - Updated",
+  "content": "Updated content of my post!"
+}
+
+###
+
+# Delete a post
+DELETE http://localhost:3001/post/{{postId}}
+
+###

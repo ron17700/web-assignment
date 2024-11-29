@@ -20,7 +20,7 @@ const postController = {
   },
   async getPostById(req, res) {
     try {
-      const post = await Post.findById(req.params.id).populate('comments');
+      const post = await Post.findById(req.params.id).populate('sender comments');
       if (!post) return res.status(404).json({ error: "Post not found" });
       res.json(post);
     } catch (error) {
