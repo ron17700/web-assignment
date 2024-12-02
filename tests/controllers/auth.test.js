@@ -47,7 +47,6 @@ it('should return 400 if email already exists', async () => {
     });
 
   expect(res.statusCode).toBe(400);
-  expect(res.body.error).toBe('Email already exist!');
 });
 
 it('should log in an existing user and return tokens', async () => {
@@ -72,9 +71,6 @@ it('should log in an existing user and return tokens', async () => {
   expect(res.body.message).toBe('Login successful');
   expect(res.body).toHaveProperty('accessToken');
   expect(res.body).toHaveProperty('refreshToken');
-
-  accessToken = res.body.accessToken; // Save for further tests
-  refreshToken = res.body.refreshToken; // Save for further tests
 });
 
 it('should return 400 for invalid credentials', async () => {

@@ -31,6 +31,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
+  await User.deleteMany(); // Clear the user collection after all tests
   // Disconnect from the test database
   await mongoose.connection.close();
   

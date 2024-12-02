@@ -16,6 +16,9 @@ index.use('/' ,require('./routes/index'));
 // Swagger documentation setup
 swaggerSetup(index); // Call the Swagger setup]
 
+module.exports = index;
+
+
 const startServer = async () => {
   try {
     console.log('\nTrying to connect to mongoDB');
@@ -31,5 +34,7 @@ const startServer = async () => {
   });
 };
 
-startServer();
-module.exports = index;
+if ( require.main === module ) {
+  console.log('Starting server from index.js');
+  startServer();
+}
