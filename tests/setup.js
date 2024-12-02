@@ -5,8 +5,8 @@ const User = require('../models/user.model');
 
 // Generate a token for a mock user
 const userId = new mongoose.Types.ObjectId();
-const token = 'Bearer ' + jwt.sign({ userId: userId }, process.env.JWT_SECRET, { expiresIn: '1h' }
-);
+const token = 'Bearer ' + jwt.sign({ userId: userId }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
+const refreshToken = jwt.sign({ userId: userId }, process.env.JWT_REFRESH_SECRET, { expiresIn: process.env.JWT_REFRESH_EXPIRES_IN });
 
 beforeEach(async () => {
   // Insert a mock user into the test database
@@ -17,7 +17,8 @@ beforeEach(async () => {
     firstName: 'Test',
     lastName: 'User',
     age: 25,
-    password: 'hashedpassword'
+    password: 'hashedpassword',
+    refreshToken: refreshToken,
   });
 });
 
@@ -45,4 +46,4 @@ afterEach(async () => {
   }
 });
 
-module.exports = { token, userId };
+module.exports = { token, refreshToken, userId };

@@ -14,7 +14,7 @@ index.use(express.urlencoded({ extended: false }));
 index.use('/' ,require('./routes/index'));
 
 // Swagger documentation setup
-swaggerSetup(index); // Call the Swagger setup]
+swaggerSetup(index); // Call the Swagger setup
 
 module.exports = index;
 

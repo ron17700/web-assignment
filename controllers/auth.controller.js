@@ -8,15 +8,15 @@ const authController = {
         try {
             const existUser = await User.exists({ email });
             if (existUser) {
-                res.status(400).json({ error: 'Email already exist!' });
+                return res.status(400).json({ error: 'Email already exist!' });
             }
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(password, salt);
             const newUser = new User({ username, email, password: hashedPassword, firstName, lastName, age });
             await newUser.save();
-            res.status(201).json({ message: 'User registered successfully', newUser});
+            return res.status(201).json({ message: 'User registered successfully', newUser});
         } catch (ex) {
-            res.status(500).json({ error: 'Registration failed: ' + ex.message})
+            return res.status(500).json({ error: 'Registration failed: ' + ex.message})
         }
     },
 
