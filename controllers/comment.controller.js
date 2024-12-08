@@ -16,7 +16,7 @@ const commentController = {
     async getCommentById(req, res) {
         try {
             const { commentId } = req.params;
-            const comment = await Comment.findById(commentId);
+            const comment = await Comment.findById(commentId).populate('author');
             if (!comment) return res.status(404).json({ error: 'Comment not found' });
             res.status(200).json(comment);
         } catch (error) {

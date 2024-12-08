@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
+
 require('dotenv').config({ path: path.join(__dirname, './.env') });
 process.env.rootDir = __dirname;
 
@@ -9,7 +10,7 @@ const index = express();
 
 index.use(express.json());
 index.use(express.urlencoded({ extended: false }));
-index.use('/', require('./routes/index'));
+index.use('/' ,require('./routes/index'));
 
 const startServer = async () => {
   try {
