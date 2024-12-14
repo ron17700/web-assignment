@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
+const swaggerSetup = require('./swagger'); // Import the Swagger setup
 
 require('dotenv').config({ path: path.join(__dirname, './.env') });
 process.env.rootDir = __dirname;
@@ -11,6 +12,12 @@ const index = express();
 index.use(express.json());
 index.use(express.urlencoded({ extended: false }));
 index.use('/' ,require('./routes/index'));
+
+// Swagger documentation setup
+swaggerSetup(index); // Call the Swagger setup
+
+module.exports = index;
+
 
 const startServer = async () => {
   try {
@@ -23,8 +30,11 @@ const startServer = async () => {
   }
   index.listen(PORT, () => {
     console.log(`\nServer is listening on port: ${PORT} \n`);
+    console.log(`Swagger Docs available at http://localhost:${PORT}/api-docs`);
   });
 };
 
-startServer();
-module.exports = index;
+if ( require.main === module ) {
+  console.log('Starting server from index.js');
+  startServer();
+}
