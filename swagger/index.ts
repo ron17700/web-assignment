@@ -1,14 +1,13 @@
-const swaggerUi = require('swagger-ui-express');
-const YAML = require('yamljs');
-const path = require('path');
+import swaggerUi from 'swagger-ui-express';
+import YAML from 'yamljs';
+import path from 'path';
+import { Express } from 'express';
 
-// Load all the individual YAML files
 const components = YAML.load(path.join(__dirname, 'components.yaml'));
 const posts = YAML.load(path.join(__dirname, 'posts.yaml'));
 const comments = YAML.load(path.join(__dirname, 'comments.yaml'));
 const users = YAML.load(path.join(__dirname, 'users.yaml'));
 
-// Merge all paths and components
 const swaggerDocument = {
   openapi: '3.0.0',
   info: {
@@ -30,6 +29,6 @@ const swaggerDocument = {
   components: components.components,
 };
 
-module.exports = (app) => {
+export default (app: Express): void => {
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 };
