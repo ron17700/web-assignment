@@ -6,10 +6,10 @@ const userController = {
         try {
             const users = await User.find();
             res.status(200).json(users);
-        } catch (err) {
+        } catch (err: any) {
             res.status(400).json({
                 message: 'Error fetching users',
-                error: err instanceof Error ? err.message : 'Unknown error',
+                error: err.message,
             });
         }
     },
@@ -22,10 +22,10 @@ const userController = {
                 return;
             }
             res.status(200).json(user);
-        } catch (err) {
+        } catch (err: any) {
             res.status(400).json({
                 message: 'Error fetching user',
-                error: err instanceof Error ? err.message : 'Unknown error',
+                error: err.message,
             });
         }
     },
@@ -54,10 +54,10 @@ const userController = {
                 message: 'User updated successfully',
                 user,
             });
-        } catch (err) {
+        } catch (err: any) {
             res.status(400).json({
                 message: 'Error updating user',
-                error: err instanceof Error ? err.message : 'Unknown error',
+                error: err.message,
             });
         }
     },
@@ -72,10 +72,10 @@ const userController = {
             }
 
             res.status(200).json({ message: 'User deleted successfully' });
-        } catch (err) {
+        } catch (err: any) {
             res.status(400).json({
                 message: 'Error deleting user',
-                error: err instanceof Error ? err.message : 'Unknown error',
+                error: err.message,
             });
         }
     },

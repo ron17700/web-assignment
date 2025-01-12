@@ -51,8 +51,8 @@ const authController = {
             await user.save();
 
             res.status(200).json({ message: 'Login successful', accessToken, refreshToken });
-        } catch (err) {
-            res.status(500).json({ error: `Server error: ${err instanceof Error ? err.message : 'Unknown error'}` });
+        } catch (err: any) {
+            res.status(500).json({ error: err.message });
         }
     },
 

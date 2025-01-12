@@ -8,7 +8,7 @@ import routes from './routes/index';
 dotenv.config({ path: path.join(__dirname, './.env') });
 process.env.rootDir = __dirname;
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
 const app: Express = express();
 
 app.use(express.json());
@@ -35,9 +35,12 @@ export const startServer = async (): Promise<ReturnType<Express['listen']> | nul
   });
 };
 
-if (require.main === module) {
-  console.log('Starting server from index.ts');
-  startServer();
-}
+export const maybeStartServer = (): void => {
+  if (process.env.NODE_ENV !== 'test') {
+    startServer();
+  }
+};
+
+maybeStartServer();
 
 export default app;

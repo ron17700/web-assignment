@@ -48,6 +48,21 @@ describe('Comment Routes', () => {
     expect(res.body.error).toBe('Post not found');
   });
 
+  it('should return 500 if an error occurs during getting all comments', async () => {
+    jest.spyOn(Post, 'findById').mockImplementationOnce(() => {
+      throw new Error('Database error');
+    });
+
+    const res = await request(app)
+        .get(`/post/${postId}/comment`)
+        .set('Authorization', token);
+
+    expect(res.statusCode).toBe(500);
+    expect(res.body.error).toBe('Database error');
+
+    jest.restoreAllMocks();
+  });
+
   it('should get a specific comment by ID', async () => {
     const comment = new Comment<Partial<IComment>>({
       content: 'Specific Comment',
@@ -74,6 +89,28 @@ describe('Comment Routes', () => {
 
     expect(res.statusCode).toBe(404);
     expect(res.body.error).toBe('Comment not found');
+  });
+
+  it('should return 500 if an error occurs during getting a specific comments', async () => {
+    jest.spyOn(Comment, 'findById').mockImplementationOnce(() => {
+      throw new Error('Database error');
+    });
+
+    const comment = new Comment<Partial<IComment>>({
+      content: 'Specific Comment',
+      author: userId,
+      postId,
+    });
+    await comment.save();
+
+    const res = await request(app)
+        .get(`/post/${postId}/comment/${comment._id}`)
+        .set('Authorization', token);
+
+    expect(res.statusCode).toBe(500);
+    expect(res.body.error).toBe('Database error');
+
+    jest.restoreAllMocks();
   });
 
   it('should create a new comment for a post', async () => {
@@ -109,6 +146,25 @@ describe('Comment Routes', () => {
     expect(res.body.error).toBe('Post not found');
   });
 
+  it('should return 500 if an error occurs during creating a new  comments', async () => {
+    jest.spyOn(Post, 'findById').mockImplementationOnce(() => {
+      throw new Error('Database error');
+    });
+
+    const res = await request(app)
+        .post(`/post/${postId}/comment`)
+        .set('Authorization', token)
+        .send({
+          content: 'New Comment',
+          author: userId.toString(),
+        });
+
+    expect(res.statusCode).toBe(500);
+    expect(res.body.error).toBe('Database error');
+
+    jest.restoreAllMocks();
+  });
+
   it('should update an existing comment', async () => {
     const comment = new Comment<Partial<IComment>>({
       content: 'Old Comment',
@@ -139,6 +195,29 @@ describe('Comment Routes', () => {
     expect(res.body.error).toBe('Comment not found');
   });
 
+  it('should return 500 if an error occurs during updating a comments', async () => {
+    jest.spyOn(Comment, 'findByIdAndUpdate').mockImplementationOnce(() => {
+      throw new Error('Database error');
+    });
+
+    const comment = new Comment<Partial<IComment>>({
+      content: 'Old Comment',
+      author: userId,
+      postId,
+    });
+    await comment.save();
+
+    const res = await request(app)
+        .put(`/post/${postId}/comment/${comment._id}`)
+        .set('Authorization', token)
+        .send({ content: 'Updated Comment' });
+
+    expect(res.statusCode).toBe(500);
+    expect(res.body.error).toBe('Database error');
+
+    jest.restoreAllMocks();
+  });
+
   it('should delete a comment', async () => {
     const comment = new Comment<Partial<IComment>>({
       content: 'Comment to Delete',
@@ -160,6 +239,53 @@ describe('Comment Routes', () => {
 
     const post = await Post.findById(postId).populate('comments');
     expect(post?.comments.length).toBe(0);
+  });
+
+  it('should return 404 when deleting a comment with post not found', async () => {
+    const fakePostId = new mongoose.Types.ObjectId();
+    const fakeCommentId = new mongoose.Types.ObjectId();
+    const res = await request(app)
+        .delete(`/post/${fakePostId}/comment/${fakeCommentId}`)
+        .set('Authorization', token)
+        .send({ content: 'Updated content for non-existent comment' });
+
+    expect(res.statusCode).toBe(404);
+    expect(res.body.error).toBe('Post not found');
+  });
+
+  it('should return 404 when deleting a non existing comment', async () => {
+    const fakeCommentId = new mongoose.Types.ObjectId();
+
+    const res = await request(app)
+        .delete(`/post/${postId}/comment/${fakeCommentId}`)
+        .set('Authorization', token)
+        .send({ content: 'Updated content for non-existent comment' });
+
+    expect(res.statusCode).toBe(404);
+    expect(res.body.error).toBe('Comment not found');
+  });
+
+  it('should return 500 if an error occurs during deleting a comments', async () => {
+    jest.spyOn(Comment, 'findByIdAndDelete').mockImplementationOnce(() => {
+      throw new Error('Database error');
+    });
+
+    const comment = new Comment<Partial<IComment>>({
+      content: 'Old Comment',
+      author: userId,
+      postId,
+    });
+    await comment.save();
+
+    const res = await request(app)
+        .delete(`/post/${postId}/comment/${comment._id}`)
+        .set('Authorization', token)
+        .send({ content: 'Updated Comment' });
+
+    expect(res.statusCode).toBe(500);
+    expect(res.body.error).toBe('Database error');
+
+    jest.restoreAllMocks();
   });
 
   it('should delete all comments for a post', async () => {
@@ -190,4 +316,31 @@ describe('Comment Routes', () => {
     const post = await Post.findById(postId).populate('comments');
     expect(post?.comments.length).toBe(0);
   });
+
+  it('should return 404 when deleting all comments of a post', async () => {
+    const fakePostId = new mongoose.Types.ObjectId();
+
+    const res = await request(app)
+        .delete(`/post/${fakePostId}/comment`)
+        .set('Authorization', token);
+
+    expect(res.statusCode).toBe(404);
+    expect(res.body.error).toBe('Post not found');
+  });
+
+  it('should return 500 if an error occurs during deleting a comments', async () => {
+    jest.spyOn(Post, 'findById').mockImplementationOnce(() => {
+      throw new Error('Database error');
+    });
+
+    const res = await request(app)
+        .delete(`/post/${postId}/comment`)
+        .set('Authorization', token);
+
+    expect(res.statusCode).toBe(500);
+    expect(res.body.error).toBe('Database error');
+
+    jest.restoreAllMocks();
+  });
+
 });

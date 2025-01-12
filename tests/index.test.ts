@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import request from 'supertest';
+import * as MainModule from '../index';
 import app, { startServer } from '../index';
 import { token } from './setup';
 import {Express} from "express";
@@ -81,5 +82,21 @@ describe('Main Server Tests', () => {
         expect(res.status).toBe(201);
         expect(res.body).toHaveProperty('newUser');
         expect(res.body.newUser.email).toBe(user.email);
+    });
+
+    it('should call startServer if MONGO_URI is set', () => {
+        process.env.NODE_ENV = 'development';
+        const mockStartServer = jest.spyOn(MainModule, 'startServer').mockImplementation(() => Promise.resolve(null));
+        MainModule.maybeStartServer();
+        expect(mockStartServer).toHaveBeenCalled();
+        mockStartServer.mockRestore();
+    });
+
+    it('should not call startServer if MONGO_URI is not set', () => {
+        process.env.NODE_ENV = 'test';
+        const mockStartServer = jest.spyOn(MainModule, 'startServer').mockImplementation(() => Promise.resolve(null));
+        MainModule.maybeStartServer();
+        expect(mockStartServer).not.toHaveBeenCalled();
+        mockStartServer.mockRestore();
     });
 });

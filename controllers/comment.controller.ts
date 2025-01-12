@@ -13,8 +13,8 @@ const commentController = {
                 return;
             }
             res.status(200).json(post.comments);
-        } catch (error) {
-            res.status(500).json({ error: error instanceof Error ? error.message : 'Unknown error' });
+        } catch (error: any) {
+            res.status(500).json({ error: error.message });
         }
     },
 
@@ -27,8 +27,8 @@ const commentController = {
                 return;
             }
             res.status(200).json(comment);
-        } catch (error) {
-            res.status(500).json({ error: error instanceof Error ? error.message : 'Unknown error' });
+        } catch (error: any) {
+            res.status(500).json({ error: error.message });
         }
     },
 
@@ -50,8 +50,8 @@ const commentController = {
             await post.save();
 
             res.status(201).json(newComment);
-        } catch (error) {
-            res.status(500).json({ error: error instanceof Error ? error.message : 'Unknown error' });
+        } catch (error: any) {
+            res.status(500).json({ error: error.message });
         }
     },
 
@@ -70,8 +70,8 @@ const commentController = {
                 return;
             }
             res.status(200).json(updatedComment);
-        } catch (error) {
-            res.status(500).json({ error: error instanceof Error ? error.message : 'Unknown error' });
+        } catch (error: any) {
+            res.status(500).json({ error: error.message });
         }
     },
 
@@ -98,8 +98,8 @@ const commentController = {
             }
 
             res.status(200).json({ message: 'Comment deleted successfully' });
-        } catch (error) {
-            res.status(500).json({ error: error instanceof Error ? error.message : 'Unknown error' });
+        } catch (error: any) {
+            res.status(500).json({ error: error.message });
         }
     },
 
@@ -119,8 +119,8 @@ const commentController = {
             await post.save();
 
             res.status(200).json({ message: 'All comments deleted successfully' });
-        } catch (error) {
-            res.status(500).json({ error: error instanceof Error ? error.message : 'Unknown error' });
+        } catch (error: any) {
+            res.status(500).json({ error: error.message });
         }
     },
 };

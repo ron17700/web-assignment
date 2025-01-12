@@ -13,8 +13,8 @@ const postController = {
           : await Post.find();
 
       res.json(posts);
-    } catch (error) {
-      res.status(500).json({ message: error instanceof Error ? error.message : 'Unknown error' });
+    } catch (error: any) {
+      res.status(500).json({ error: error.message });
     }
   },
 
@@ -26,8 +26,8 @@ const postController = {
         return;
       }
       res.json(post);
-    } catch (error) {
-      res.status(500).json({ error: error instanceof Error ? error.message : 'Unknown error' });
+    } catch (error: any) {
+      res.status(500).json({ error: error.message });
     }
   },
 
@@ -36,8 +36,8 @@ const postController = {
       const newPost = new Post<IPost>(req.body);
       const post = await newPost.save();
       res.status(201).json(post);
-    } catch (error) {
-      res.status(400).json({ error: error instanceof Error ? error.message : 'Unknown error' });
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
     }
   },
 
@@ -49,8 +49,8 @@ const postController = {
         return;
       }
       res.json(post);
-    } catch (error) {
-      res.status(400).json({ error: error instanceof Error ? error.message : 'Unknown error' });
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
     }
   },
 
@@ -73,9 +73,9 @@ const postController = {
       await session.commitTransaction();
 
       res.json({ message: 'Post deleted successfully' });
-    } catch (error) {
+    } catch (error: any) {
       await session.abortTransaction();
-      res.status(500).json({ error: error instanceof Error ? error.message : 'Unknown error' });
+      res.status(500).json({ error: error.message });
     } finally {
       session.endSession();
     }

@@ -13,6 +13,9 @@ if (!process.env.JWT_SECRET || !process.env.JWT_REFRESH_SECRET || !process.env.J
 export const userId = new mongoose.Types.ObjectId();
 export const token = `Bearer ${jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN })}`;
 export const refreshToken = jwt.sign({ userId }, process.env.JWT_REFRESH_SECRET, { expiresIn: process.env.JWT_REFRESH_EXPIRES_IN });
+export const getRefreshToken = (userid: mongoose.Types.ObjectId) => {
+  return jwt.sign({ userId: userid }, process.env.JWT_REFRESH_SECRET!, { expiresIn: process.env.JWT_REFRESH_EXPIRES_IN });
+};
 
 const testSetup = {
   token,
